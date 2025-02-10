@@ -1,0 +1,56 @@
+.register-card {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: #ebf1f6f7;
+  }
+  
+  mat-card-header {
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  mat-card-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2e5ba5;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #284c85;
+  }
+  
+  .register-actions {
+    margin-top: 20px;
+  }
+  
+  .login {
+    text-align: center;
+    a {
+      color: #2e5ba5;
+      cursor: pointer;
+    }
+  }
+
+  .error-message {
+    color: red;
+    text-align: center;
+  }
+  

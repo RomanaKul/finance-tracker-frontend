@@ -11,6 +11,7 @@ import { Enterprise } from '../../models/enterprise.model';
 import { EnterpriseService } from '../../services/enterprise.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EnterpriseDialogComponent } from '../../components/enterprise-dialog/enterprise-dialog.component';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -63,10 +64,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  openDialog() {
+  openDialog(enterprise?: Enterprise) {
     const dialogRef = this.dialogRef.open(EnterpriseDialogComponent, {
       width: '70vw',
       maxWidth: 'none',
+      data: { enterprise: enterprise ? { ...enterprise } : undefined },
     });
 
     dialogRef.afterClosed().subscribe((data) => {
@@ -77,10 +79,32 @@ export class DashboardComponent implements OnInit {
   }
 
   editEnterprise(enterprise: Enterprise) {
-    console.log('Edit enterprise:', enterprise);
+    this.openDialog(enterprise)
   }
 
   deleteEnterprise(enterprise: Enterprise) {
-    console.log('Delete enterprise:', enterprise);
+    const dialogRef = this.dialogRef.open(ConfirmDialogComponent, {
+      width: '250px',
+      data: {
+        title: 'Confirm Deletion',
+        message: `Are you sure you want to delete ${enterprise.name}?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.enterpriseService.deleteEnterprise(enterprise._id!).subscribe({
+          next: () => {
+            this.enterprises = this.enterprises.filter(
+              (e) => e._id !== enterprise._id
+            );
+            console.log(`Enterprise "${enterprise.name}" deleted successfully`);
+          },
+          error: (err) => {
+            console.log('Failed to delete enterprise: ', err);
+          },
+        });
+      }
+    });
   }
 }

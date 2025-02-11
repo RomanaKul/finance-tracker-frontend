@@ -12,13 +12,13 @@ mat-dialog-actions {
   border: 1px solid white;
 }
 
-h2 {
-  color: #2e5ba5;
-  text-align: center;
-  font-weight: bold;
-}
-
 .error-message {
   color: red;
+  text-align: center;
+}
+
+.title {
+  color: #2e5ba5;
+  font-weight: bold;
   text-align: center;
 }

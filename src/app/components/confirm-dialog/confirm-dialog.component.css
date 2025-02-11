@@ -1,0 +1,13 @@
+.title {
+  color: #2e5ba5;
+  font-weight: bold;
+  text-align: center;
+}
+
+.message {
+  text-align: center;
+}
+
+.actions {
+  justify-content: center;
+}

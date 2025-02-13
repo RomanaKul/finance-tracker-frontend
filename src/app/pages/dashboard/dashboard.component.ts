@@ -1,29 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { Enterprise } from '../../models/enterprise.model';
 import { EnterpriseService } from '../../services/enterprise.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EnterpriseDialogComponent } from '../../components/enterprise-dialog/enterprise-dialog.component';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { LayoutComponent } from '../../components/layout/layout.component';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     CommonModule,
-    MatSidenavModule,
-    MatListModule,
     MatIconModule,
     MatButtonModule,
     MatTableModule,
-    MatToolbarModule,
-    RouterModule,
+    LayoutComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -35,6 +30,7 @@ export class DashboardComponent implements OnInit {
     contactPerson: '',
     phone: '',
   };
+  selectedEnterprise: Enterprise | null = null;
   enterprises: Enterprise[] = [];
   displayedColumns: string[] = [
     'name',
@@ -46,7 +42,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private enterpriseService: EnterpriseService,
-    private dialogRef: MatDialog
+    private dialogRef: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -79,7 +75,7 @@ export class DashboardComponent implements OnInit {
   }
 
   editEnterprise(enterprise: Enterprise) {
-    this.openDialog(enterprise)
+    this.openDialog(enterprise);
   }
 
   deleteEnterprise(enterprise: Enterprise) {

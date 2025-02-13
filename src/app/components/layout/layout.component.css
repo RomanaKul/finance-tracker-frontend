@@ -1,0 +1,24 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 200px;
+  background-color: #4e77b999;
+  border-radius: 0;
+  border-right: 2px solid rgb(249, 248, 248);
+}
+
+.content-container {
+  padding: 20px;
+}
+
+.head-line {
+  height: 64px;
+  background-color: #4b79c3;
+  color: white;
+}
+
+.menu-icon {
+  color: white;
+}

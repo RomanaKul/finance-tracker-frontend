@@ -1,0 +1,41 @@
+<app-layout>
+  <div class="content-container">
+    <div class="table-header">
+      <h2 class="title">Indicators for {{ enterpriseName }}</h2>
+      <button mat-raised-button (click)="openIndicatorForm()">
+        Add Indicator
+      </button>
+    </div>
+    <table mat-table [dataSource]="indicators">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let indicator">{{ indicator.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="importance">
+        <th mat-header-cell *matHeaderCellDef>Importance</th>
+        <td mat-cell *matCellDef="let indicator">{{ indicator.importance }}</td>
+      </ng-container>
+      <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef>Unit</th>
+        <td mat-cell *matCellDef="let indicator">{{ indicator.unit }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="actions">Actions</th>
+        <td mat-cell *matCellDef="let indicator">
+          <button mat-icon-button (click)="editIndicator(indicator)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteIndicator(indicator)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        class="rows"
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
+    </table>
+  </div>
+</app-layout>

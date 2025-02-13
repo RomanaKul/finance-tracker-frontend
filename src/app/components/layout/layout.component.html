@@ -1,0 +1,36 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer mode="side" opened class="sidenav">
+    <mat-toolbar class="head-line">Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard">Dashboard</a>
+      <a mat-list-item [matMenuTriggerFor]="indicatorsMenu">Indicators</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="head-line">
+      <button mat-icon-button (click)="drawer.toggle()">
+        <mat-icon class="menu-icon">menu</mat-icon>
+      </button>
+      <span>Financial Dashboard</span>
+    </mat-toolbar>
+
+    <div class="content-container">
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<mat-menu #indicatorsMenu="matMenu">
+  <mat-form-field>
+    <mat-label>Select Enterprise</mat-label>
+    <mat-select
+      [(ngModel)]="selectedEnterprise"
+      (selectionChange)="onEnterpriseSelect($event.value)"
+    >
+      <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise">
+        {{ enterprise.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-menu>

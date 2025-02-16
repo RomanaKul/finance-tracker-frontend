@@ -28,12 +28,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './enterprise-dialog.component.css',
 })
 export class EnterpriseDialogComponent {
-  enterprise: Enterprise = {
-    name: '',
-    bankDetails: '',
-    contactPerson: '',
-    phone: '',
-  };
+  enterprise: Enterprise;
   displayedColumns: string[] = [
     'name',
     'bankDetails',

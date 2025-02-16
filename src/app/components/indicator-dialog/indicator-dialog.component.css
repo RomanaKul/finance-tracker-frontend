@@ -1,0 +1,28 @@
+mat-dialog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .th-cell {
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    background-color: #2e5ba5;
+    border: 1px solid white;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+  }
+  
+  .title {
+    color: #2e5ba5;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  mat-form-field {
+    display: flex;
+  }

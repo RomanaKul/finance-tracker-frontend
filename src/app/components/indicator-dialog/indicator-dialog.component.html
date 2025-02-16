@@ -1,0 +1,55 @@
+<h2 mat-dialog-title class="title">
+  {{ isEditMode ? "Edit" : "Add New" }} Indicator
+</h2>
+<mat-dialog-content>
+  <form (ngSubmit)="onSubmit()">
+    <table mat-table [dataSource]="[indicator]">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="th-cell">Name</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field>
+            <input matInput [(ngModel)]="element.name" name="name" required />
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="importance">
+        <th mat-header-cell *matHeaderCellDef class="th-cell">Importance</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="element.importance"
+              name="importance"
+              required
+            />
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef class="th-cell">Unit</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field>
+            <mat-select [(ngModel)]="element.unit" name="unit" required>
+              <mat-option value="USD">USD</mat-option>
+              <mat-option value="EUR">EUR</mat-option>
+              <mat-option value="UAH">UAH</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </form>
+</mat-dialog-content>
+<p *ngIf="error" class="error-message">{{ error }}</p>
+<mat-dialog-actions>
+  <button mat-raised-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button (click)="onSubmit()">
+    {{ isEditMode ? "Update" : "Add" }} Indicator
+  </button>
+</mat-dialog-actions>

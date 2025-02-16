@@ -8,20 +8,48 @@
     </div>
     <table mat-table [dataSource]="indicators">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <th mat-header-cell *matHeaderCellDef class="column-sm">Name</th>
         <td mat-cell *matCellDef="let indicator">{{ indicator.name }}</td>
       </ng-container>
       <ng-container matColumnDef="importance">
-        <th mat-header-cell *matHeaderCellDef>Importance</th>
+        <th mat-header-cell *matHeaderCellDef class="column-sm">Importance</th>
         <td mat-cell *matCellDef="let indicator">{{ indicator.importance }}</td>
       </ng-container>
       <ng-container matColumnDef="unit">
-        <th mat-header-cell *matHeaderCellDef>Unit</th>
+        <th mat-header-cell *matHeaderCellDef class="column-sm">Unit</th>
         <td mat-cell *matCellDef="let indicator">{{ indicator.unit }}</td>
       </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef class="column-lg">Date</th>
+        <td mat-cell *matCellDef="let indicator" class="cell-container">
+          <mat-form-field>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [formControl]="dateControl"
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="value">
+        <th mat-header-cell *matHeaderCellDef class="column-lg">Value</th>
+        <td mat-cell *matCellDef="let indicator" class="cell-container">
+          <mat-form-field>
+            <input matInput type="number" placeholder="Enter value"/>
+          </mat-form-field>
+        </td>
+      </ng-container>
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef class="actions">Actions</th>
+        <th mat-header-cell *matHeaderCellDef class="column-md">Actions</th>
         <td mat-cell *matCellDef="let indicator">
+          <button mat-icon-button>
+            <mat-icon>done</mat-icon>
+          </button>
           <button mat-icon-button (click)="editIndicator(indicator)">
             <mat-icon>edit</mat-icon>
           </button>

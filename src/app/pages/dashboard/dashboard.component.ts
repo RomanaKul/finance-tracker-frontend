@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private enterpriseService: EnterpriseService,
-    private dialogRef: MatDialog,
+    private dialogRef: MatDialog
   ) {}
 
   ngOnInit() {
@@ -91,9 +91,7 @@ export class DashboardComponent implements OnInit {
       if (result) {
         this.enterpriseService.deleteEnterprise(enterprise._id!).subscribe({
           next: () => {
-            this.enterprises = this.enterprises.filter(
-              (e) => e._id !== enterprise._id
-            );
+            this.loadEnterprises();
             console.log(`Enterprise "${enterprise.name}" deleted successfully`);
           },
           error: (err) => {

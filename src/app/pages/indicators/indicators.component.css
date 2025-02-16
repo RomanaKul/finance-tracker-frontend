@@ -5,10 +5,6 @@
   margin-bottom: 20px;
 }
 
-.actions {
-  width: 120px;
-}
-
 .title,
 mat-icon {
   margin: 0;
@@ -18,4 +14,20 @@ mat-icon {
 .rows:hover {
   cursor: pointer;
   background-color: #83aef475;
+}
+
+.column-sm {
+  width: 10%;
+}
+
+.column-lg {
+  width: 20%;
+}
+
+.column-md {
+  width: 13%;
+}
+
+.cell-container {
+  padding-top: 10px;
 }

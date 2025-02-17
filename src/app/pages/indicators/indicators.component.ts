@@ -4,17 +4,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Indicator } from '../../models/indicator.model';
 import { IndicatorService } from '../../services/indicator.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LayoutComponent } from '../../components/layout/layout.component';
 import { EnterpriseService } from '../../services/enterprise.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IndicatorDialogComponent } from '../../components/indicator-dialog/indicator-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { DynamicService } from '../../services/dynamic.service';
 
 @Component({
   selector: 'app-indicators',
@@ -46,12 +47,15 @@ export class IndicatorsComponent implements OnInit {
   ];
 
   dateControl = new FormControl(new Date());
+  indicatorForms: { [key: string]: FormGroup } = {};
 
   constructor(
     private route: ActivatedRoute,
     private indicatorService: IndicatorService,
     private enterpriseService: EnterpriseService,
-    private dialogRef: MatDialog
+    private dialogRef: MatDialog,
+    private router: Router,
+    private dynamicService: DynamicService
   ) {}
 
   ngOnInit() {
@@ -66,6 +70,13 @@ export class IndicatorsComponent implements OnInit {
     this.indicatorService.getIndicators(this.enterpriseId).subscribe({
       next: (data) => {
         this.indicators = data;
+        this.indicatorForms = {}; 
+        this.indicators.forEach((indicator) => {
+          this.indicatorForms[indicator._id!] = new FormGroup({
+            date: new FormControl<Date | null>(new Date()),
+            value: new FormControl<number | null>(null), 
+          });
+        });
       },
       error: (error) => {
         console.error('Error loading indicators:', error);
@@ -124,4 +135,36 @@ export class IndicatorsComponent implements OnInit {
       }
     });
   }
+
+  openHistory(indicatorId: string) {
+    this.router.navigate([`/indicator-history/${indicatorId}`]);
+  }
+
+  addValue(indicator: Indicator) {
+    const form = this.indicatorForms[indicator._id!];
+    if (form && form.valid) {
+      const newValue = {
+        indicator: indicator._id!,
+        enterprise: this.enterpriseId,
+        date: form.get('date')!.value,
+        value: form.get('value')!.value,
+      };
+
+      this.dynamicService.createDynamic(newValue).subscribe({
+        next: () => {
+          console.log(`Value "${newValue.value}" added successfully`);
+          form.reset({ date: new Date() });
+          this.loadIndicators();
+        },
+        error: (error) => {
+          console.error('Error adding value:', error);
+        },
+      });
+    }
+  }
+
+  getFormControl(indicatorId: string, controlName: string): FormControl {
+    return this.indicatorForms[indicatorId]?.get(controlName) as FormControl;
+  }
+  
 }

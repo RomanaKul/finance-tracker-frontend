@@ -12,7 +12,6 @@ mat-icon {
 }
 
 .rows:hover {
-  cursor: pointer;
   background-color: #83aef475;
 }
 
@@ -30,4 +29,9 @@ mat-icon {
 
 .cell-container {
   padding-top: 10px;
+}
+
+.name:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }

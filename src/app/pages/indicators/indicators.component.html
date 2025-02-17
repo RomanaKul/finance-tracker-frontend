@@ -9,7 +9,7 @@
     <table mat-table [dataSource]="indicators">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef class="column-sm">Name</th>
-        <td mat-cell *matCellDef="let indicator">{{ indicator.name }}</td>
+        <td mat-cell *matCellDef="let indicator" (click)="openHistory(indicator._id)" class="name">{{ indicator.name }}</td>
       </ng-container>
       <ng-container matColumnDef="importance">
         <th mat-header-cell *matHeaderCellDef class="column-sm">Importance</th>
@@ -26,7 +26,7 @@
             <input
               matInput
               [matDatepicker]="picker"
-              [formControl]="dateControl"
+              [formControl]="getFormControl(indicator._id!, 'date')"
             />
             <mat-datepicker-toggle
               matIconSuffix
@@ -40,14 +40,14 @@
         <th mat-header-cell *matHeaderCellDef class="column-lg">Value</th>
         <td mat-cell *matCellDef="let indicator" class="cell-container">
           <mat-form-field>
-            <input matInput type="number" placeholder="Enter value"/>
+            <input matInput type="number" placeholder="Enter value" [formControl]="getFormControl(indicator._id!, 'value')"/>
           </mat-form-field>
         </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef class="column-md">Actions</th>
         <td mat-cell *matCellDef="let indicator">
-          <button mat-icon-button>
+          <button mat-icon-button (click)="addValue(indicator)">
             <mat-icon>done</mat-icon>
           </button>
           <button mat-icon-button (click)="editIndicator(indicator)">

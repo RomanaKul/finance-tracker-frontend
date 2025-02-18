@@ -70,11 +70,11 @@ export class IndicatorsComponent implements OnInit {
     this.indicatorService.getIndicators(this.enterpriseId).subscribe({
       next: (data) => {
         this.indicators = data;
-        this.indicatorForms = {}; 
+        this.indicatorForms = {};
         this.indicators.forEach((indicator) => {
           this.indicatorForms[indicator._id!] = new FormGroup({
             date: new FormControl<Date | null>(new Date()),
-            value: new FormControl<number | null>(null), 
+            value: new FormControl<number | null>(null),
           });
         });
       },
@@ -166,5 +166,4 @@ export class IndicatorsComponent implements OnInit {
   getFormControl(indicatorId: string, controlName: string): FormControl {
     return this.indicatorForms[indicatorId]?.get(controlName) as FormControl;
   }
-  
 }

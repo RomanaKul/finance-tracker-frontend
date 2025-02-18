@@ -1,0 +1,18 @@
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .title,
+  mat-icon {
+    margin: 0;
+    color: #2e5ba5;
+  }
+  
+  .rows:hover {
+    cursor: pointer;
+    background-color: #83aef475;
+  }
+  

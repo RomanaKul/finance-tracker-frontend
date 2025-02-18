@@ -15,7 +15,7 @@ export class DynamicService {
     return this.http.get<Dynamic[]>(`${this.apiUrl}/${indicatorId}`)
   }
 
-  createDynamic(dynamic: Partial<Dynamic>): Observable<Dynamic> {
+  addDynamic(dynamic: Partial<Dynamic>): Observable<Dynamic> {
     return this.http.post<Dynamic>(`${this.apiUrl}`, dynamic)
   }
 }

@@ -150,7 +150,7 @@ export class IndicatorsComponent implements OnInit {
         value: form.get('value')!.value,
       };
 
-      this.dynamicService.createDynamic(newValue).subscribe({
+      this.dynamicService.addDynamic(newValue).subscribe({
         next: () => {
           console.log(`Value "${newValue.value}" added successfully`);
           form.reset({ date: new Date() });

@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ValueDialogComponent } from '../../components/value-dialog/value-dialog.component';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-indicator-history',
@@ -79,6 +80,30 @@ export class IndicatorHistoryComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         this.loadIndicatorHistory(data.indicator);
+      }
+    });
+  }
+
+  deleteValue(dynamic: Dynamic) {
+    const dialogRef = this.dialogRef.open(ConfirmDialogComponent, {
+      width: '250px',
+      data: {
+        title: 'Confirm Deletion',
+        message: `Are you sure you want to delete value ${dynamic.value}?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.dynamicService.deleteDynamic(dynamic._id!).subscribe({
+          next: () => {
+            this.loadIndicatorHistory(this.indicator._id as string);
+            console.log(`Value "${dynamic.value}" deleted successfully`);
+          },
+          error: (error) => {
+            console.error('Error deleting value:', error);
+          },
+        });
       }
     });
   }

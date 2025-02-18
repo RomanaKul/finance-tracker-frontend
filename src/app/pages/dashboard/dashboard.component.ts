@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { Enterprise } from '../../models/enterprise.model';
 import { EnterpriseService } from '../../services/enterprise.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -46,17 +45,8 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadEnterprises();
-  }
-
-  loadEnterprises() {
-    this.enterpriseService.getEnterprises().subscribe({
-      next: (data) => {
-        this.enterprises = data;
-      },
-      error: (error) => {
-        console.error('Error loading enterprises:', error);
-      },
+    this.enterpriseService.getEnterprises().subscribe((data) => {
+      this.enterprises = data;
     });
   }
 
@@ -69,7 +59,7 @@ export class DashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        this.loadEnterprises();
+        this.enterpriseService.refreshEnterprises();
       }
     });
   }
@@ -91,7 +81,6 @@ export class DashboardComponent implements OnInit {
       if (result) {
         this.enterpriseService.deleteEnterprise(enterprise._id!).subscribe({
           next: () => {
-            this.loadEnterprises();
             console.log(`Enterprise "${enterprise.name}" deleted successfully`);
           },
           error: (err) => {

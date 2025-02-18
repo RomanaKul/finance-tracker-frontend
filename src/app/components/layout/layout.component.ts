@@ -39,19 +39,11 @@ export class LayoutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadEnterprises();
-  }
-
-  loadEnterprises() {
-    this.enterpriseService.getEnterprises().subscribe({
-      next: (data) => {
-        this.enterprises = data;
-      },
-      error: (error) => {
-        console.error('Error loading enterprises:', error);
-      },
+    this.enterpriseService.getEnterprises().subscribe((data) => {
+      this.enterprises = data;
     });
   }
+
 
   onEnterpriseSelect(enterprise: Enterprise) {
     this.selectedEnterprise = enterprise;

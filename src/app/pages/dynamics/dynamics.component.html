@@ -1,0 +1,20 @@
+<app-layout>
+  <h1 *ngIf="enterprise">{{ enterprise.name }} Dynamics</h1>
+  <div *ngIf="indicators.length > 0">
+    <h2>Select an Indicator</h2>
+    <select (change)="selectIndicator($event)">
+      <option *ngFor="let indicator of indicators" [value]="indicator._id">
+        {{ indicator.name }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="selectedIndicator">
+    <h2>{{ selectedIndicator.name }} Chart</h2>
+    <app-chart [data]="valueArr" [labels]="dateArr"></app-chart>
+  </div>
+
+  <p *ngIf="indicators.length === 0">
+    No indicators available for this enterprise.
+  </p>
+</app-layout>

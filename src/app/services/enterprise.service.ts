@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Enterprise } from '../models/enterprise.model';
+import { Indicator } from '../models/indicator.model';
+import { Dynamic } from '../models/dynamic.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +32,16 @@ export class EnterpriseService {
 
   getEnterprise(id: string): Observable<Enterprise> {
     return this.http.get<Enterprise>(`${this.apiUrl}/${id}`);
+  }
+
+  getEnterpriseIndicators(enterpriseId: string): Observable<Indicator[]> {
+    return this.http.get<Indicator[]>(
+      `${this.apiUrl}/${enterpriseId}/indicators`
+    );
+  }
+
+  getIndicatorDynamics(indicatorId: string): Observable<Dynamic[]> {
+    return this.http.get<Dynamic[]>(`${this.apiUrl}/${indicatorId}/dynamics`);
   }
 
   addEnterprise(enterprise: Enterprise): Observable<Enterprise> {

@@ -32,6 +32,7 @@ import { EnterpriseService } from '../../services/enterprise.service';
 export class LayoutComponent implements OnInit {
   selectedEnterprise: Enterprise | null = null;
   enterprises: Enterprise[] = [];
+  selectedDestination: string = 'indicators';
 
   constructor(
     private router: Router,
@@ -44,9 +45,16 @@ export class LayoutComponent implements OnInit {
     });
   }
 
-
   onEnterpriseSelect(enterprise: Enterprise) {
     this.selectedEnterprise = enterprise;
-    this.router.navigate([`/indicators/${enterprise._id}`]);
+    this.router.navigate([`/${this.selectedDestination}/${enterprise._id}`], {
+      queryParamsHandling: 'preserve',
+      skipLocationChange: false,
+      replaceUrl: false,
+    });
+  }
+
+  setDestination(destination: string) {
+    this.selectedDestination = destination;
   }
 }

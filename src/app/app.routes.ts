@@ -4,6 +4,7 @@ import { RegisterComponent } from './pages/auth/register/register.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { IndicatorsComponent } from './pages/indicators/indicators.component';
 import { IndicatorHistoryComponent } from './pages/indicator-history/indicator-history.component';
+import { DynamicsComponent } from './pages/dynamics/dynamics.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -12,4 +13,5 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'indicators/:enterpriseId', component: IndicatorsComponent },
   { path: 'indicator-history/:_id', component: IndicatorHistoryComponent },
+  { path: 'dynamics/:enterpriseId', component: DynamicsComponent },
 ];

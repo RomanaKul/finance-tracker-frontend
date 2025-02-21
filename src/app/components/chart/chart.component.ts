@@ -43,7 +43,7 @@ export class ChartComponent implements AfterViewInit, OnChanges {
             {
               label: 'Value',
               data: this.data,
-              borderColor: 'rgb(75, 192, 192)',
+              borderColor: '#4b79c3',
               tension: 0.1,
             },
           ],

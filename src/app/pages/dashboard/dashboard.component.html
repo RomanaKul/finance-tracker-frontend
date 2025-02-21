@@ -45,6 +45,7 @@
         class="rows"
         mat-row
         *matRowDef="let row; columns: displayedColumns"
+        (click)="navigateToDynamics(row._id)"
       ></tr>
     </table>
   </div>

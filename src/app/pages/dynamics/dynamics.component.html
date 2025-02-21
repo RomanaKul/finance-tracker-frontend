@@ -1,16 +1,21 @@
 <app-layout>
-  <h1 *ngIf="enterprise">{{ enterprise.name }} Dynamics</h1>
-  <div *ngIf="indicators.length > 0">
-    <h2>Select an Indicator</h2>
-    <select (change)="selectIndicator($event)">
-      <option *ngFor="let indicator of indicators" [value]="indicator._id">
-        {{ indicator.name }}
-      </option>
-    </select>
+  <h2 *ngIf="enterprise" class="title">{{ enterprise.name }} dynamics</h2>
+  <div *ngIf="indicators.length > 0" class="select-container">
+    <mat-form-field>
+      <mat-label>Select indicator</mat-label>
+      <mat-select (selectionChange)="selectIndicator($event)">
+        <mat-option
+          *ngFor="let indicator of indicators"
+          [value]="indicator._id"
+        >
+          {{ indicator.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 
   <div *ngIf="selectedIndicator">
-    <h2>{{ selectedIndicator.name }} Chart</h2>
+    <h3 class="title">{{ selectedIndicator.name }} chart</h3>
     <app-chart [data]="valueArr" [labels]="dateArr"></app-chart>
   </div>
 

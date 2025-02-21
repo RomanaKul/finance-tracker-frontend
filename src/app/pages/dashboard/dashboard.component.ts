@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EnterpriseDialogComponent } from '../../components/enterprise-dialog/enterprise-dialog.component';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { LayoutComponent } from '../../components/layout/layout.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,7 +42,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private enterpriseService: EnterpriseService,
-    private dialogRef: MatDialog
+    private dialogRef: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -89,5 +91,9 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
+  }
+
+  navigateToDynamics(enterpriseId: string) {
+    this.router.navigate([`/dynamics/${enterpriseId}`]);
   }
 }

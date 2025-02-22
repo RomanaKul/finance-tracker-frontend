@@ -15,7 +15,7 @@ export class CurrencyRateService {
     return this.http.get<Currency>(`${this.apiUrl}/${date}`);
   }
 
-  addCurrencyRate(date: Date): Observable<Currency> {
+  addCurrencyRate(date: string): Observable<Currency> {
     return this.http.post<Currency>(this.apiUrl, { date });
   }
 }

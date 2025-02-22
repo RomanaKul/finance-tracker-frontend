@@ -18,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { CurrencyRateService } from '../../services/currency-rate.service';
 
 @Component({
   selector: 'app-value-dialog',
@@ -43,6 +44,7 @@ export class ValueDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ValueDialogComponent>,
     private dynamicService: DynamicService,
+    private currencyRateService: CurrencyRateService,
     @Inject(MAT_DIALOG_DATA)
     public data: { indicatorId: string; enterpriseId: string }
   ) {
@@ -64,6 +66,8 @@ export class ValueDialogComponent {
         value: form.get('value')!.value,
       };
 
+      const formattedDate = newValue.date.toISOString().split('T')[0];
+
       this.dynamicService.addDynamic(newValue).subscribe({
         next: (data) => {
           console.log('Value added successfully: ', data);
@@ -73,6 +77,30 @@ export class ValueDialogComponent {
           console.log('Error adding value: ', err);
           this.error =
             'An error occurred while adding the value. Please try again.';
+        },
+      });
+
+      this.currencyRateService.getCurrencyRate(formattedDate).subscribe({
+        next: (existingRate) => {
+          if (existingRate) {
+            console.log(
+              `Currency rate for ${formattedDate} already exists. Skipping POST.`
+            );
+          } else {
+            this.currencyRateService.addCurrencyRate(formattedDate).subscribe({
+              next: () => {
+                console.log(
+                  `Currency rate for ${formattedDate} added successfully.`
+                );
+              },
+              error: (error) => {
+                console.error('Error adding currency rate:', error);
+              },
+            });
+          }
+        },
+        error: (error) => {
+          console.error('Error checking currency rate:', error);
         },
       });
     } else {

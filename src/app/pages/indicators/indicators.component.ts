@@ -151,7 +151,9 @@ export class IndicatorsComponent implements OnInit {
         date: form.get('date')!.value,
         value: form.get('value')!.value,
       };
-      const formattedDate = newValue.date.toISOString().split('T')[0];
+
+      const date = new Date(form.get('date')!.value);
+      const formattedDate = date.toLocaleDateString('en-CA');
 
       this.dynamicService.addDynamic(newValue).subscribe({
         next: () => {
@@ -168,11 +170,15 @@ export class IndicatorsComponent implements OnInit {
       this.currencyRateService.getCurrencyRate(formattedDate).subscribe({
         next: (existingRate) => {
           if (existingRate) {
-            console.log(`Currency rate for ${formattedDate} already exists. Skipping POST.`);
+            console.log(
+              `Currency rate for ${formattedDate} already exists. Skipping POST.`
+            );
           } else {
             this.currencyRateService.addCurrencyRate(formattedDate).subscribe({
               next: () => {
-                console.log(`Currency rate for ${formattedDate} added successfully.`);
+                console.log(
+                  `Currency rate for ${formattedDate} added successfully.`
+                );
               },
               error: (error) => {
                 console.error('Error adding currency rate:', error);

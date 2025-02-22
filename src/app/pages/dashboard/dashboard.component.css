@@ -16,6 +16,10 @@ mat-icon {
 }
 
 .rows:hover {
-  cursor: pointer;
   background-color: #83aef475;
+}
+
+.name:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }

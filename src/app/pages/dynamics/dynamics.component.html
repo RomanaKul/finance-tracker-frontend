@@ -15,8 +15,34 @@
   </div>
 
   <div *ngIf="selectedIndicator">
-    <h3 class="title">{{ selectedIndicator.name }} chart</h3>
-    <app-chart [data]="valueArr" [labels]="dateArr"></app-chart>
+    <div *ngIf="valueArr.length > 0">
+      <h3 class="indicator">{{ selectedIndicator.name }} chart</h3>
+      <div class="currency-container">
+        <p>Currency: &nbsp;</p>
+        <select
+          name="currency"
+          [ngModel]="selectedIndicator.unit"
+          (ngModelChange)="convertCurrency($event)"
+          class="currency-select"
+        >
+          <option value="USD">USD</option>
+          <option value="UAH">UAH</option>
+          <option value="EUR">EUR</option>
+        </select>
+      </div>
+
+      <app-chart [data]="valueArr" [labels]="dateArr"></app-chart>
+    </div>
+
+    <div *ngIf="valueArr.length === 0">
+      <p>
+        No data available for indicator:
+        <a routerLink="/indicator-history/{{ selectedIndicator._id }}" class="link"
+          >{{ selectedIndicator.name }}
+        </a>
+        . Add values to see dynamics.
+      </p>
+    </div>
   </div>
 
   <p *ngIf="indicators.length === 0">

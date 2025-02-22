@@ -66,8 +66,9 @@ export class ValueDialogComponent {
         value: form.get('value')!.value,
       };
 
-      const formattedDate = newValue.date.toISOString().split('T')[0];
-
+      const date = new Date(form.get('date')!.value);
+      const formattedDate = date.toLocaleDateString('en-CA');
+      
       this.dynamicService.addDynamic(newValue).subscribe({
         next: (data) => {
           console.log('Value added successfully: ', data);

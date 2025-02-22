@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { LayoutComponent } from '../../components/layout/layout.component';
 import { Enterprise } from '../../models/enterprise.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { EnterpriseService } from '../../services/enterprise.service';
 import { CommonModule } from '@angular/common';
 import { ChartComponent } from '../../components/chart/chart.component';
 import { Dynamic } from '../../models/dynamic.model';
 import { Indicator } from '../../models/indicator.model';
-import { forkJoin } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { CurrencyRateService } from '../../services/currency-rate.service';
 
 @Component({
   selector: 'app-dynamics',
@@ -19,6 +21,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ChartComponent,
     MatSelectModule,
     MatFormFieldModule,
+    FormsModule,
+    RouterModule,
   ],
   templateUrl: './dynamics.component.html',
   styleUrl: './dynamics.component.css',
@@ -32,10 +36,12 @@ export class DynamicsComponent implements OnInit {
 
   valueArr: number[] = [];
   dateArr: string[] = [];
+  originalValueArr: number[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private enterpriseService: EnterpriseService
+    private enterpriseService: EnterpriseService,
+    private currencyRateService: CurrencyRateService
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +59,7 @@ export class DynamicsComponent implements OnInit {
     this.selectedIndicator = null;
     this.valueArr = [];
     this.dateArr = [];
+    this.originalValueArr = [];
   }
 
   loadEnterpriseData(enterpriseId: string): void {
@@ -106,9 +113,57 @@ export class DynamicsComponent implements OnInit {
       );
       this.dateArr = dynamics.map((d) => new Date(d.date).toLocaleDateString());
       this.valueArr = dynamics.map((d) => d.value);
+      this.originalValueArr = [...this.valueArr];
 
       this.dateArr = [...this.dateArr];
       this.valueArr = [...this.valueArr];
     }
+  }
+
+  convertCurrency(newCurrency: string): void {
+    const currencyFrom = this.selectedIndicator?.unit;
+    const currencyTo = newCurrency;
+
+    if (this.selectedIndicator) {
+      if (currencyFrom === currencyTo) {
+        this.valueArr = [...this.originalValueArr];
+        return;
+      }
+
+      const dynamics =
+        this.dynamicsMap.get(this.selectedIndicator._id as string) || [];
+      dynamics.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+
+      const convertedDynamics = dynamics.map((d) => {
+        const date = new Date(d.date);
+        const formattedDate = date.toLocaleDateString('en-CA');
+
+        return this.currencyRateService.getCurrencyRate(formattedDate).pipe(
+          map((currencyRate) => {
+            const rates = currencyRate.rates;
+            const fromRates = rates[currencyFrom as keyof typeof rates];
+            const conversionRate =
+              fromRates[currencyTo as keyof typeof fromRates];
+
+            return {
+              date: d.date,
+              value: d.value * conversionRate,
+            };
+          })
+        );
+      });
+
+      forkJoin(convertedDynamics).subscribe((results) => {
+        this.dateArr = results.map((d) =>
+          new Date(d.date).toLocaleDateString()
+        );
+        this.valueArr = results.map((d) => d.value);
+      });
+    }
+
+    console.log('currencyFrom', currencyFrom);
+    console.log('currencyTo', currencyTo);
   }
 }

@@ -16,6 +16,7 @@ import { IndicatorDialogComponent } from '../../components/indicator-dialog/indi
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { DynamicService } from '../../services/dynamic.service';
+import { CurrencyRateService } from '../../services/currency-rate.service';
 
 @Component({
   selector: 'app-indicators',
@@ -55,7 +56,8 @@ export class IndicatorsComponent implements OnInit {
     private enterpriseService: EnterpriseService,
     private dialogRef: MatDialog,
     private router: Router,
-    private dynamicService: DynamicService
+    private dynamicService: DynamicService,
+    private currencyRateService: CurrencyRateService
   ) {}
 
   ngOnInit() {
@@ -149,6 +151,7 @@ export class IndicatorsComponent implements OnInit {
         date: form.get('date')!.value,
         value: form.get('value')!.value,
       };
+      const formattedDate = newValue.date.toISOString().split('T')[0];
 
       this.dynamicService.addDynamic(newValue).subscribe({
         next: () => {
@@ -156,8 +159,29 @@ export class IndicatorsComponent implements OnInit {
           form.reset({ date: new Date() });
           this.loadIndicators();
         },
+
         error: (error) => {
           console.error('Error adding value:', error);
+        },
+      });
+
+      this.currencyRateService.getCurrencyRate(formattedDate).subscribe({
+        next: (existingRate) => {
+          if (existingRate) {
+            console.log(`Currency rate for ${formattedDate} already exists. Skipping POST.`);
+          } else {
+            this.currencyRateService.addCurrencyRate(formattedDate).subscribe({
+              next: () => {
+                console.log(`Currency rate for ${formattedDate} added successfully.`);
+              },
+              error: (error) => {
+                console.error('Error adding currency rate:', error);
+              },
+            });
+          }
+        },
+        error: (error) => {
+          console.error('Error checking currency rate:', error);
         },
       });
     }

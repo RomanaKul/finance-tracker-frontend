@@ -34,6 +34,7 @@ export class LayoutComponent implements OnInit {
   selectedEnterprise: Enterprise | null = null;
   enterprises: Enterprise[] = [];
   selectedDestination: string = 'indicators';
+  user!: any;
 
   constructor(
     private router: Router,
@@ -45,6 +46,8 @@ export class LayoutComponent implements OnInit {
     this.enterpriseService.getEnterprises().subscribe((data) => {
       this.enterprises = data;
     });
+    this.user = this.authService.currentUserValue;
+   
   }
 
   onEnterpriseSelect(enterprise: Enterprise) {

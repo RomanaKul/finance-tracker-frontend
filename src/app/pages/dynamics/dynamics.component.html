@@ -1,6 +1,6 @@
 <app-layout>
   <h2 *ngIf="enterprise" class="title">{{ enterprise.name }} dynamics</h2>
-  <div *ngIf="indicators.length > 0" class="select-container">
+  <div *ngIf="dataReady && indicators.length > 0" class="select-container">
     <mat-form-field>
       <mat-label>Select indicator</mat-label>
       <mat-select (selectionChange)="selectIndicator($event)">
@@ -14,7 +14,7 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf="selectedIndicator">
+  <div *ngIf="selectedIndicator && dataReady">
     <div *ngIf="valueArr.length > 0">
       <h3 class="indicator">{{ selectedIndicator.name }} chart</h3>
       <div class="currency-container">
@@ -37,7 +37,9 @@
     <div *ngIf="valueArr.length === 0">
       <p>
         No data available for indicator:
-        <a routerLink="/indicator-history/{{ selectedIndicator._id }}" class="link"
+        <a
+          routerLink="/indicator-history/{{ selectedIndicator._id }}"
+          class="link"
           >{{ selectedIndicator.name }}
         </a>
         . Add values to see dynamics.
@@ -45,7 +47,14 @@
     </div>
   </div>
 
-  <p *ngIf="indicators.length === 0">
-    No indicators available for this enterprise.
+  <p *ngIf="loading">Loading indicators...</p>
+
+  <p *ngIf="dataReady && indicators.length === 0">
+    No indicators available for the enterprise:  <a
+    routerLink="/indicators/{{ enterprise?._id }}"
+    class="link"
+    >{{ enterprise?.name }}
+  </a>
+  . Add data to see dynamics.
   </p>
 </app-layout>

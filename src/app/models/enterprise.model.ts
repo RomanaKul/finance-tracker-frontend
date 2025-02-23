@@ -4,4 +4,5 @@ export interface Enterprise {
   bankDetails: string;
   contactPerson: string;
   phone: string;
+  userId?: string;
 }

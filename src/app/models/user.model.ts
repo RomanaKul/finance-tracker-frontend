@@ -2,6 +2,7 @@ export interface IUser {
   username: string;
   email: string;
   password: string;
+  accessToken?: string;
 }
 
 export class User implements IUser {

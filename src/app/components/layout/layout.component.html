@@ -5,6 +5,7 @@
       <a mat-list-item routerLink="/dashboard">Dashboard</a>
       <a mat-list-item [matMenuTriggerFor]="indicatorsMenu" (click)="setDestination('indicators')">Indicators</a>
       <a mat-list-item [matMenuTriggerFor]="indicatorsMenu" (click)="setDestination('dynamics')">View dynamics</a>
+      <a mat-list-item (click)="logout()">Logout</a>
     </mat-nav-list>
   </mat-sidenav>
 

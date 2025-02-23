@@ -47,8 +47,13 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.enterpriseService.getEnterprises().subscribe((data) => {
-      this.enterprises = data;
+    this.enterpriseService.getEnterprises().subscribe({
+      next: (data) => {
+        this.enterprises = data;
+      },
+      error: (err) => {
+        console.error('Failed to load enterprises:', err);
+      },
     });
   }
 

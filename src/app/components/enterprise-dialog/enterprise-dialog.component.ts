@@ -52,7 +52,7 @@ export class EnterpriseDialogComponent {
           contactPerson: data.enterprise?.contactPerson ?? '',
           phone: data.enterprise?.phone ?? '',
         }
-      : { name: '', bankDetails: '', contactPerson: '', phone: '' };
+      : { name: '', bankDetails: '', contactPerson: '', phone: ''};
   }
 
   onSubmit() {

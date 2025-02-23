@@ -38,6 +38,9 @@ export class DynamicsComponent implements OnInit {
   dateArr: string[] = [];
   originalValueArr: number[] = [];
 
+  loading: boolean = false;
+  dataReady: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private enterpriseService: EnterpriseService,
@@ -48,6 +51,8 @@ export class DynamicsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       const enterpriseId = params['enterpriseId'];
       this.resetData();
+      this.loading = true;
+      this.dataReady = false;
       this.loadEnterpriseData(enterpriseId);
     });
   }
@@ -60,6 +65,8 @@ export class DynamicsComponent implements OnInit {
     this.valueArr = [];
     this.dateArr = [];
     this.originalValueArr = [];
+    this.loading = true;
+    this.dataReady = false;
   }
 
   loadEnterpriseData(enterpriseId: string): void {
@@ -72,9 +79,16 @@ export class DynamicsComponent implements OnInit {
         this.indicators = indicators;
         if (indicators.length > 0) {
           this.selectIndicatorById(indicators[0]._id as string);
+        } else {
+          this.loading = false;
+          this.dataReady = true;
         }
       },
-      error: (error) => console.error('Error loading enterprise data:', error),
+      error: (error) => {
+        console.error('Error loading enterprise data:', error);
+        this.loading = false;
+        this.dataReady = true;
+      },
     });
   }
 
@@ -98,9 +112,14 @@ export class DynamicsComponent implements OnInit {
       next: (dynamics) => {
         this.dynamicsMap.set(indicatorId, dynamics);
         this.updateChartData();
+        this.loading = false;
+        this.dataReady = true;
       },
-      error: (error) =>
-        console.error('Error loading indicator dynamics:', error),
+      error: (error) => {
+        console.error('Error loading indicator dynamics:', error);
+        this.loading = false;
+        this.dataReady = true;
+      },
     });
   }
 
@@ -162,8 +181,5 @@ export class DynamicsComponent implements OnInit {
         this.valueArr = results.map((d) => d.value);
       });
     }
-
-    console.log('currencyFrom', currencyFrom);
-    console.log('currencyTo', currencyTo);
   }
 }

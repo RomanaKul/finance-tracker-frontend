@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Enterprise } from '../models/enterprise.model';
@@ -45,8 +45,12 @@ export class EnterpriseService {
   }
 
   addEnterprise(enterprise: Enterprise): Observable<Enterprise> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
     return this.http
-      .post<Enterprise>(this.apiUrl, enterprise)
+      .post<Enterprise>(this.apiUrl, enterprise, { headers })
       .pipe(tap(() => this.refreshEnterprises()));
   }
 

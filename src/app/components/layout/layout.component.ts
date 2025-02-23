@@ -11,6 +11,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { EnterpriseService } from '../../services/enterprise.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -36,7 +37,8 @@ export class LayoutComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private enterpriseService: EnterpriseService
+    private enterpriseService: EnterpriseService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -56,5 +58,10 @@ export class LayoutComponent implements OnInit {
 
   setDestination(destination: string) {
     this.selectedDestination = destination;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

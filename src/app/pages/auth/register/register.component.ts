@@ -65,7 +65,8 @@ export class RegisterComponent {
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {
-          this.error = error.error.message || 'Registration failed';
+          console.error('Registration failed:', error);
+          this.error = 'Registration failed';
         },
         complete: () => console.log('Registration process completed.')
       });

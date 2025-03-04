@@ -94,6 +94,6 @@ export class EnterpriseDialogComponent {
     }
   }
   onCancel() {
-    this.dialogRef.close(this.enterprise);
+    this.dialogRef.close();
   }
 }

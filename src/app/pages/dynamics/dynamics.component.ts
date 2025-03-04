@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ChartComponent } from '../../components/chart/chart.component';
 import { Dynamic } from '../../models/dynamic.model';
 import { Indicator } from '../../models/indicator.model';
-import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { forkJoin, map } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';

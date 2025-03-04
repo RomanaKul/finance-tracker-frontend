@@ -8,14 +8,12 @@ import { IUser } from '../models/user.model';
 })
 export class AuthService {
   private currentUserSubject: BehaviorSubject<IUser | null>;
-  public currentUser: Observable<IUser | null>;
   private apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<IUser | null>(
       JSON.parse(localStorage.getItem('currentUser') || 'null')
     );
-    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue(): IUser | null {

@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { EnterpriseService } from '../../services/enterprise.service';
 import { AuthService } from '../../services/auth.service';
+import { IUser } from '../../models/user.model';
 
 @Component({
   selector: 'app-layout',
@@ -34,7 +35,7 @@ export class LayoutComponent implements OnInit {
   selectedEnterprise: Enterprise | null = null;
   enterprises: Enterprise[] = [];
   selectedDestination: string = 'indicators';
-  user!: any;
+  user!: IUser;
 
   constructor(
     private router: Router,
@@ -46,7 +47,7 @@ export class LayoutComponent implements OnInit {
     this.enterpriseService.getEnterprises().subscribe((data) => {
       this.enterprises = data;
     });
-    this.user = this.authService.currentUserValue;
+    this.user = this.authService.currentUserValue as IUser;
    
   }
 

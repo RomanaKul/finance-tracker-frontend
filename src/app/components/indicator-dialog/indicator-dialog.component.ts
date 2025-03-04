@@ -95,6 +95,6 @@ export class IndicatorDialogComponent {
     }
   }
   onCancel() {
-    this.dialogRef.close(this.indicator);
+    this.dialogRef.close();
   }
 }

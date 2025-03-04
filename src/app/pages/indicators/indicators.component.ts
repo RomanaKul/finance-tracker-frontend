@@ -47,7 +47,6 @@ export class IndicatorsComponent implements OnInit {
     'actions',
   ];
 
-  dateControl = new FormControl(new Date());
   indicatorForms: { [key: string]: FormGroup } = {};
 
   constructor(

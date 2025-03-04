@@ -22,8 +22,4 @@ export class DynamicService {
   deleteDynamic(id: string): Observable<Dynamic> {
     return this.http.delete<Dynamic>(`${this.apiUrl}/${id}`)
   }
-
-  deleteDynamicsById(indicatorId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/indicator/${indicatorId}`)
-  }
 }
